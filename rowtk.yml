@@ -1,0 +1,47 @@
+name: Battle for Middle-earth II - Rise of the Witch King
+game_slug: lord-of-the-rings-battle-for-middle-earth-ii-rise-
+version: DVD + Official Patch
+slug: wine-rotwk
+runner: wine
+
+script:
+  requires: lord-of-the-rings-battle-for-middle-earth-ii
+  files:
+    - patch201:
+        filename: "LotrBfMe2EP1-131073-english.exe"
+        url: https://modding-union.com/php/url.php?id=131
+  game:
+    arch: win32
+    exe: "$GAMEDIR/drive_c/Program Files/Electronic Arts/The Lord of the Rings, The Rise of the Witch-king/lotrbfme2ep1.exe"
+    prefix: $GAMEDIR
+    version: lutris-ge-6.16-1
+    wine:
+      dxvk: true
+      esync: true
+      overrides:
+      nvapi,nvapi64: disabled
+  installer:
+    - insert-disc:
+        requires: autorun.exe
+    - task:
+        arch: win32
+        description: Run Installer
+        executable: $DISC/autorun.exe
+        working_dir: $DISC
+        name: wineexec
+        prefix: $GAMEDIR
+    - task:
+        arch: win32
+        description: Installing offical patch 2.01
+        executable: patch201
+        name: wineexec
+        prefix: $GAMEDIR
+    - write_file:
+        file: $GAMEDIR/drive_c/users/$USER/Application Data/My The Lord of the Rings, The Rise of the Witch-king Files/Options.ini
+        content: |
+          AudioLOD = Low
+          HasSeenLogoMovies = yes
+          IdealStaticGameLOD = VeryLow
+          Resolution = 1920 1080
+          StaticGameLOD = VeryLow
+          TimesInGame = 2
